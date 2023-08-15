@@ -1,10 +1,10 @@
 # Proyecto láminas Star Wars
 
-##Prueba técnica
+## Prueba técnica
 
 Realizar un sitio web (SPA) para la colección de láminas digitales basados en universo Star Wars. El sitio debe consumir el API RESTful público Star Wars API (SWAPI) https://swapi.dev/documentation de donde obtendrá los datos de las láminas a coleccionar. Para esta prueba solo se utilizarán como coleccionables las películas, los personajes y las naves presentes en este universo.
 
-###Consideraciones:
+### Consideraciones:
 
 1. Cada usuario que ingresa al sitio obtiene automáticamente un álbum digital vacío.
 
@@ -27,10 +27,10 @@ número o id correspondiente, las posiciones que ya tengan una lámina asignada 
 
 10. Las láminas del álbum no contienen imágenes pues ninguno de los recursos entregados por el API cuenta con esa propiedad, por lo tanto, las láminas a mostrar solo deben contener datos descriptivos de cada uno de los recursos.
 
-###Indicaciones adicionales:
+### Indicaciones adicionales:
 
-•El objetivo de la prueba es evaluar las aptitudes de desarrollo frontend, se recomienda no gastar tiempo y esfuerzo en desarrollos backend ya que no serán tomados en cuenta. Por ello se entrega un API totalmente funcional.
+• El objetivo de la prueba es evaluar las aptitudes de desarrollo frontend, se recomienda no gastar tiempo y esfuerzo en desarrollos backend ya que no serán tomados en cuenta. Por ello se entrega un API totalmente funcional.
 
-•Es indispensable utilizar la librería react.js para el desarrollo del sistema bajo una arquitectura orientada a microservicios (API RESTful). El diseño del sitio, uso de frameworks CSS y todos los assets o recursos visuales a utilizar quedan a disposición del programador.
+• Es indispensable utilizar la librería react.js para el desarrollo del sistema bajo una arquitectura orientada a microservicios (API RESTful). El diseño del sitio, uso de frameworks CSS y todos los assets o recursos visuales a utilizar quedan a disposición del programador.
 
-•El control de versiones del proyecto debe ser realizado utilizando GIT (preferiblemente Git Flow). Se tendrá en consideración el manejo del repositorio, por ello se recomienda realizar commits por cada tarea que consideren finalizada.
+• El control de versiones del proyecto debe ser realizado utilizando GIT (preferiblemente Git Flow). Se tendrá en consideración el manejo del repositorio, por ello se recomienda realizar commits por cada tarea que consideren finalizada.
