@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
-
+import { useState, useEffect } from 'react';
 const Card = () => {
-  const [CardData, setCardData] = useState([]);
+  const [cardData, setCardData] = useState([]);
 
   useEffect(() => {
     fetch('https://swapi.dev/api/people/')
@@ -12,11 +11,11 @@ const Card = () => {
   return (
     <div>
       <h2>Obtener láminas</h2>
-      {CardData.map((Card, index) => (
-        <div key={index}>{Card.name}</div>
+      {cardData.map((card, index) => (
+        <div key={index}>{card.name}</div>
       ))}
     </div>
   );
 };
 
-export default Card;
+export default Card; 
