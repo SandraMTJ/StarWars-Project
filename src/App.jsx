@@ -1,55 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
-import Album from './Album';
+import Album from './components/Album';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('card');
   const [cardData, setCardData] = useState([]);
   const [countdown, setCountdown] = useState(0);
   const [openedEnvelopeIndex, setOpenedEnvelopeIndex] = useState(null);
-  const [remainingCooldown, setRemainingCooldown] = useState(0);
-  const [overConfig, setOverConfig] = useState(null);
-  const [cooldownActive, setCooldownActive] = useState(false);
+  const [remainingCooldowns, setRemainingCooldowns] = useState([0, 0, 0, 0]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
   const handleCardClick = (index) => {
-    if (openedEnvelopeIndex !== null || countdown > 0 || cooldownActive) {
+    if (remainingCooldowns.some(cooldown => cooldown > 0)) {
       return;
     }
 
     setOpenedEnvelopeIndex(index);
-    setCountdown(60000);
-    setOverConfig(Math.floor(Math.random() * 2));
     setCardData(cardData.filter((_, i) => i !== index));
-    setRemainingCooldown(60000);
+    setRemainingCooldowns(remainingCooldowns.map((_, i) => (i === index ? 60000 : 0)));
 
-    // Bloquear los demás sobres durante el enfriamiento
-    setCooldownActive(true);
+    setCountdown(60000);
+    const cooldownInterval = setInterval(() => {
+      setCountdown((prevCountdown) => prevCountdown - 1000);
+    }, 1000);
+
     setTimeout(() => {
-      setCooldownActive(false);
+      clearInterval(cooldownInterval);
+      setOpenedEnvelopeIndex(null);
+      setRemainingCooldowns(remainingCooldowns.map((_, i) => 0));
     }, 60000);
   };
-
-  useEffect(() => {
-    if (countdown > 0) {
-      const interval = setInterval(() => {
-        setCountdown((prevCountdown) => prevCountdown - 1000);
-      }, 1000);
-
-      return () => clearInterval(interval);
-    }
-
-    if (openedEnvelopeIndex !== null && remainingCooldown > 0) {
-      const interval = setInterval(() => {
-        setRemainingCooldown((prevCooldown) => prevCooldown - 1000);
-      }, 1000);
-
-      return () => clearInterval(interval);
-    }
-  }, [countdown, openedEnvelopeIndex, remainingCooldown]);
 
   return (
     <div className="App">
@@ -68,18 +51,18 @@ function App() {
                     <div
                       key={index}
                       className={`envelope ${openedEnvelopeIndex === index ? 'active' : ''} ${
-                        cooldownActive && openedEnvelopeIndex !== index ? 'cooldown' : ''
+                        remainingCooldowns.some(cooldown => cooldown > 0) && openedEnvelopeIndex !== index ? 'cooldown' : ''
                       }`}
                     >
                       <button onClick={() => handleCardClick(index)}>Abrir sobre</button>
                       {openedEnvelopeIndex === index && countdown > 0 && (
-                        <div>
-                          <span>Tiempo restante: {Math.ceil(countdown / 1000)} segundos</span>
+                        <div className="countdown">
+                          Contador: {Math.ceil(countdown / 1000)} segundos
                         </div>
                       )}
-                      {openedEnvelopeIndex !== index && remainingCooldown > 0 && (
-                        <div>
-                          <span>Enfriamiento: {Math.ceil(remainingCooldown / 1000)} segundos</span>
+                      {remainingCooldowns[index] > 0 && (
+                        <div className="countdown1">
+                          Enfriamiento: {Math.ceil(remainingCooldowns[index] / 1000)} segundos
                         </div>
                       )}
                     </div>

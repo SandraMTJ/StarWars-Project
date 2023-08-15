@@ -133,6 +133,21 @@ nav button:hover {
   pointer-events: none;
 }
 
+.envelope .countdown{
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  
+  color: #666;
+}
+
+.countdown {
+  font-size: 30px;
+}
+
+
+
 .envelope button {
   background-color: #149cea;
   color: white;
