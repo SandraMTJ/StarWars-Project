@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
 import Album from './components/Album';
+import Modal from './components/Modal';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('card');
@@ -8,12 +9,61 @@ function App() {
   const [countdown, setCountdown] = useState(0);
   const [openedEnvelopeIndex, setOpenedEnvelopeIndex] = useState(null);
   const [remainingCooldowns, setRemainingCooldowns] = useState([0, 0, 0, 0]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState([]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  const handleCardClick = (index) => {
+  const getRandomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+  const fetchRandomData = async () => {
+    const randomConfig = getRandomInt(1, 2);
+    const modalData = [];
+    
+    for (let i = 0; i < 5; i++) {
+      let resource = '';
+      let section = '';
+      
+      if (randomConfig === 1) {
+        if (i === 0) {
+          resource = 'films';
+          section = 'Películas';
+        } else if (i < 4) {
+          resource = 'people';
+          section = 'Personajes';
+        } else {
+          resource = 'starships';
+          section = 'Naves';
+        }
+      } else {
+        if (i < 3) {
+          resource = 'people';
+          section = 'Personajes';
+        } else {
+          resource = 'starships';
+          section = 'Naves';
+        }
+      }
+
+      const response = await fetch(`https://swapi.dev/api/${resource}/${getRandomInt(1, 10)}/`);
+      const data = await response.json();
+
+      modalData.push({
+        category: 'Especial',
+        section: section,
+        number: i + 1,
+        resource: data.name,
+      });
+    }
+
+    return modalData;
+  };
+
+  const handleCardClick = async (index) => {
     if (remainingCooldowns.some(cooldown => cooldown > 0)) {
       return;
     }
@@ -32,6 +82,15 @@ function App() {
       setOpenedEnvelopeIndex(null);
       setRemainingCooldowns(remainingCooldowns.map((_, i) => 0));
     }, 60000);
+
+    const modalData = await fetchRandomData();
+    setModalContent(modalData);
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setModalContent([]);
   };
 
   return (
@@ -68,6 +127,9 @@ function App() {
                     </div>
                   ))}
                 </div>
+                {isModalOpen && (
+                  <Modal content={modalContent} onClose={handleModalClose} />
+                )}
               </div>
             ) : null}
             {currentPage === 'album' ? <Album cardData={cardData} /> : null}
