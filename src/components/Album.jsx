@@ -1,10 +1,9 @@
-
-
-const Album = ({ cardData }) => {
+const Album = ({ cardData, albumData }) => {
   return (
     <div>
       <h2>Mi álbum</h2>
       {cardData.map((card, index) => (
+        
         <div key={index}>
           <div>
             <span>Categoría: {card.category}</span>
@@ -19,7 +18,7 @@ const Album = ({ cardData }) => {
             <span>Nombre: {card.resource}</span>
           </div>
           <div>
-            {card.inAlbum ? (
+            {albumData.some((albumItem) => albumItem.number === card.number) ? (
               <button>Descartar</button>
             ) : (
               <button>Agregar al álbum</button>

@@ -14,6 +14,12 @@ body{
   background-size: 85% 100%;
 }
 
+.logo img{
+  display: flex;
+  justify-content: center;
+  background-image: url("./img/tittle.jpg");
+}
+
 .container {
   position: fixed;
   top: 0;
